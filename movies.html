@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Cinematic Theatre Hub - Movies</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Base styles adapted from your example but with our theme's colors */
+      body {
+        margin: 0;
+        padding: 0;
+        /* Using a deep theatre red/gold gradient */
+        background: linear-gradient(to bottom, #7f1d1d, #450a0a);
+        color: white;
+        font-family: "Inter", sans-serif;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-y: auto;
+      }
+
+      /* Back Button Style (Adapted to match the theatre's gold/red theme) */
+      .back-button {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background-color: #fde047; /* Gold */
+        color: #450a0a; /* Dark Red Text */
+        border-radius: 15px;
+        padding: 15px 25px;
+        font-size: 18px;
+        text-decoration: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5),
+          0 0 10px rgba(253, 224, 71, 0.7);
+        transition: all 0.3s;
+        z-index: 100;
+        font-weight: bold;
+      }
+      .back-button:hover {
+        background-color: #fcd34d;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6),
+          0 0 15px rgba(253, 224, 71, 1);
+      }
+
+      h1 {
+        font-family: "Times New Roman", Times, serif;
+        font-size: 64px;
+        margin: 80px 0 40px 0;
+        color: #fde047; /* Gold Title */
+        text-shadow: 4px 4px 6px #000;
+        letter-spacing: 0.2rem;
+      }
+
+      /* Movie Card/Button Style (Interactive Element) */
+      .movie-card {
+        background-color: #1a2a44; /* Dark blue/black background */
+        color: white;
+        border: 4px solid #fde047; /* Gold frame border */
+        border-radius: 15px;
+        padding: 18px 30px;
+        font-size: 20px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+        min-width: 250px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+      .movie-card:hover {
+        background-color: #2e4057;
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(253, 224, 71, 0.8); /* Gold hover glow */
+      }
+      .movie-title {
+        font-weight: bold;
+        font-size: 1.25rem; /* text-xl */
+      }
+      .movie-source {
+        font-size: 0.875rem; /* text-sm */
+        color: #fde047;
+        margin-top: 4px;
+      }
+
+      /* Video Player Styling */
+      #local-player-container {
+        width: 90%;
+        max-width: 800px;
+        margin: 20px auto;
+      }
+      #local-player-container video {
+        width: 100%;
+        height: auto;
+        border-radius: 15px;
+        box-shadow: 0 0 25px rgba(253, 224, 71, 0.8);
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="index.html" class="back-button">Lobby</a>
+    <h1>NOW PLAYING</h1>
+
+    <!-- Mode Selector Buttons -->
+    <div class="flex space-x-4 mb-8">
+      <button
+        id="external-mode-btn"
+        class="py-2 px-4 rounded-lg font-bold transition bg-yellow-400 text-red-900 shadow-xl"
+      >
+        External Links Mode
+      </button>
+      <button
+        id="local-mode-btn"
+        class="py-2 px-4 rounded-lg font-bold transition bg-gray-500 text-gray-100 shadow-lg hover:bg-gray-400"
+      >
+        Local File Playback Mode
+      </button>
+    </div>
+
+    <!-- 1. External Links Mode (Visible by default) -->
+    <div id="external-mode" class="w-full flex flex-col items-center">
+      <!-- Clear Explanation about Embedding Failure -->
+      <div
+        class="text-center mb-8 p-4 bg-green-900/50 border border-green-700 rounded-lg max-w-2xl mx-auto"
+      >
+        <p class="text-yellow-300 font-semibold text-lg">
+          ✅ DOWNLOAD FROM SITE AND UPLOAD
+        </p>
+        <p class="text-green-200 text-sm mt-2">
+          The movie cards below open the video page directly in a new tab,
+          download it and upload it in the local file replayer.
+        </p>
+      </div>
+
+      <!-- Movie Selection Grid (Functional Links) -->
+      <div
+        id="movie-grid"
+        class="buttons-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 max-w-6xl"
+      >
+        <!-- The Shadows Edge -->
+        <a
+          href="https://www.1shows.ru/movies/1419406-the-shadows-edge"
+          target="_blank"
+          class="movie-card"
+        >
+          <span class="movie-title">The Shadows Edge</span>
+          <span class="movie-source"
+            >Source: 1shows.ru (Click to Open in New Tab)</span
+          >
+        </a>
+
+        <!-- Playdate -->
+        <a
+          href="https://www.1shows.ru/movies/1248226-playdate"
+          target="_blank"
+          class="movie-card"
+        >
+          <span class="movie-title">Playdate</span>
+          <span class="movie-source"
+            >Source: 1shows.ru (Click to Open in New Tab)</span
+          >
+        </a>
+
+        <!-- Jujutsu Kaisen -->
+        <a
+          href="https://www.1shows.ru/movies/1539104-jujutsu-kaisen-execution-shibuya-incident-x-the-culling-game-begins"
+          target="_blank"
+          class="movie-card"
+        >
+          <span class="movie-title">Jujutsu Kaisen: Shibuya Arc</span>
+          <span class="movie-source"
+            >Source: 1shows.ru (Click to Open in New Tab)</span
+          >
+        </a>
+
+        <!-- Wicked For Good -->
+        <a
+          href="https://www.1shows.ru/movies/967941-wicked-for-good"
+          target="_blank"
+          class="movie-card"
+        >
+          <span class="movie-title">Wicked For Good</span>
+          <span class="movie-source"
+            >Source: 1shows.ru (Click to Open in New Tab)</span
+          >
+        </a>
+
+        <!-- Aquaman -->
+        <a
+          href="https://www.1shows.ru/movies/297802-aquaman"
+          target="_blank"
+          class="movie-card"
+        >
+          <span class="movie-title">Aquaman</span>
+          <span class="movie-source"
+            >Source: 1shows.ru (Click to Open in New Tab)</span
+          >
+        </a>
+
+        <!-- Deadpool -->
+        <a
+          href="https://www.1shows.ru/movies/293660-deadpool"
+          target="_blank"
+          class="movie-card"
+        >
+          <span class="movie-title">Deadpool</span>
+          <span class="movie-source"
+            >Source: 1shows.ru (Click to Open in New Tab)</span
+          >
+        </a>
+      </div>
+    </div>
+
+    <!-- 2. Local File Playback Mode (Hidden by default) -->
+    <div id="local-mode" class="hidden w-full flex flex-col items-center">
+      <div
+        class="text-center mb-8 p-4 bg-red-900/50 border border-red-700 rounded-lg max-w-2xl mx-auto"
+      >
+        <p class="text-yellow-300 font-semibold text-lg">
+          🎥 Local Playback Mode
+        </p>
+        <p class="text-red-200 text-sm mt-2">
+          Click "Choose File" to select a video (MP4 recommended) from your
+          computer. The file is **not uploaded**; it is played directly by your
+          browser and will be forgotten if you leave this page.
+        </p>
+      </div>
+
+      <input
+        type="file"
+        id="video-file-input"
+        accept="video/*"
+        class="mb-4 text-white p-2 rounded-lg bg-red-700 hover:bg-red-600 cursor-pointer transition"
+      />
+
+      <div id="local-player-container">
+        <video
+          id="local-video-player"
+          controls
+          poster="https://placehold.co/800x450/450a0a/fde047?text=Select+a+Local+Video+File"
+        ></video>
+      </div>
+    </div>
+
+    <p class="text-gray-300 mt-10 mb-20 text-center">
+      Choose your playback method above.
+    </p>
+
+    <script>
+      const externalModeDiv = document.getElementById("external-mode");
+      const localModeDiv = document.getElementById("local-mode");
+      const externalModeBtn = document.getElementById("external-mode-btn");
+      const localModeBtn = document.getElementById("local-mode-btn");
+      const fileInput = document.getElementById("video-file-input");
+      const videoPlayer = document.getElementById("local-video-player");
+
+      // Function to switch modes
+      function switchMode(mode) {
+        if (mode === "external") {
+          externalModeDiv.classList.remove("hidden");
+          localModeDiv.classList.add("hidden");
+          externalModeBtn.classList.add(
+            "bg-yellow-400",
+            "text-red-900",
+            "shadow-xl"
+          );
+          externalModeBtn.classList.remove(
+            "bg-gray-500",
+            "text-gray-100",
+            "shadow-lg",
+            "hover:bg-gray-400"
+          );
+          localModeBtn.classList.remove(
+            "bg-yellow-400",
+            "text-red-900",
+            "shadow-xl"
+          );
+          localModeBtn.classList.add(
+            "bg-gray-500",
+            "text-gray-100",
+            "shadow-lg",
+            "hover:bg-gray-400"
+          );
+        } else if (mode === "local") {
+          externalModeDiv.classList.add("hidden");
+          localModeDiv.classList.remove("hidden");
+          localModeBtn.classList.add(
+            "bg-yellow-400",
+            "text-red-900",
+            "shadow-xl"
+          );
+          localModeBtn.classList.remove(
+            "bg-gray-500",
+            "text-gray-100",
+            "shadow-lg",
+            "hover:bg-gray-400"
+          );
+          externalModeBtn.classList.remove(
+            "bg-yellow-400",
+            "text-red-900",
+            "shadow-xl"
+          );
+          externalModeBtn.classList.add(
+            "bg-gray-500",
+            "text-gray-100",
+            "shadow-lg",
+            "hover:bg-gray-400"
+          );
+        }
+      }
+
+      // Handle file selection for local playback
+      fileInput.addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          // Create a temporary URL for the selected file
+          const fileURL = URL.createObjectURL(file);
+
+          // Set the video source and load it
+          videoPlayer.src = fileURL;
+          videoPlayer.load(); // Load the new video source
+          videoPlayer.play(); // Auto-play (if browser allows)
+        }
+      });
+
+      // Set up button listeners
+      externalModeBtn.addEventListener("click", () => switchMode("external"));
+      localModeBtn.addEventListener("click", () => switchMode("local"));
+
+      // Default to external mode on load
+      document.addEventListener("DOMContentLoaded", () =>
+        switchMode("external")
+      );
+    </script>
+  </body>
+</html>
